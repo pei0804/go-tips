@@ -95,3 +95,18 @@ func Hoge(w http.ResponseWriter, req *http.Request) {
 ```go
 req.Header.Set("Hoge") = "hoge"
 ```
+
+## struct
+
+### init
+
+```go
+users := []struct {
+  ID   int    `json:"id"`
+  User string `json:"user"`
+}{
+  {1, "hoge"},
+  {2, "foo"},
+  {3, "bar"},
+}
+```
