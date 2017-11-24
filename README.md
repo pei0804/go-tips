@@ -81,3 +81,17 @@ if e != nil {
 ```go
 fmt.Sprint(hoge)
 ```
+
+## HTTP
+
+### Header
+
+```go
+func Hoge(w http.ResponseWriter, req *http.Request) {
+    Hoge := req.Header.Get("Hoge")
+}
+```
+
+```go
+req.Header.Set("Hoge") = "hoge"
+```
