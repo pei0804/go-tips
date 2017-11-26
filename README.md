@@ -96,6 +96,45 @@ func Hoge(w http.ResponseWriter, req *http.Request) {
 req.Header.Set("Hoge") = "hoge"
 ```
 
+### Debug
+
+```
+package main
+
+import (
+    "encoding/json"
+    "fmt"
+    "io"
+    "log"
+    "net/http"
+    "os"
+)
+
+type Foo struct {
+    ID  string `json:"id"`
+    Content string `json:"content"`
+}
+
+func main() {
+    resp, err := http.Get("http://example.com")
+    if err != nil {
+        log.Fatal(err)
+    }
+    defer resp.Body.Close()
+
+    var r io.Reader = resp.Body
+    r = io.TeeReader(r, os.Stderr)
+
+    var foo Foo
+    err = json.NewDecoder(r).Decode(&foo)
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    fmt.Println(foo.Content)
+}
+```
+
 ## struct
 
 ### init
@@ -110,3 +149,4 @@ users := []struct {
   {3, "bar"},
 }
 ```
+
