@@ -150,3 +150,16 @@ users := []struct {
 }
 ```
 
+## slice
+
+### copy
+
+```go
+newSlice := make([]newType, len(oldSlice))
+for i,v := range oldSlice {
+    newSlice[i] = newType{
+        field1: v.oldField1,
+        field2: v.oldField2,
+    }
+}
+```
