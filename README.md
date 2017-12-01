@@ -98,7 +98,7 @@ req.Header.Set("Hoge") = "hoge"
 
 ### Debug
 
-```
+```go
 package main
 
 import (
@@ -161,5 +161,85 @@ for i,v := range oldSlice {
         field1: v.oldField1,
         field2: v.oldField2,
     }
+}
+```
+
+## error
+
+### Wrap()
+
+```go
+package main
+
+import (
+	"fmt"
+	"os"
+
+	"github.com/pkg/errors"
+)
+
+func main() {
+	err := doSomething()
+	if err != nil {
+		Debugf("%+v\n", err)
+	}
+}
+
+func Debugf(format string, args ...interface{}) {
+	fmt.Fprintf(os.Stdout, "[DEBUG] "+format+"\n", args...)
+}
+
+func doSomething() error {
+	err := read()
+	if err != nil {
+		return errors.Wrap(err, "faild")
+	}
+	return nil
+}
+
+func read() error {
+	return fmt.Errorf("エラー")
+}
+```
+
+### Cause()
+
+```go
+package main
+
+import (
+	"fmt"
+	"os"
+
+	"github.com/pkg/errors"
+)
+
+func main() {
+	if err := doSomething(); err != nil {
+		switch errors.Cause(err).(type) {
+		case *SomeError:
+			fmt.Fprintln(os.Stderr, "*SomeError")
+		default:
+		}
+		fmt.Fprintln(os.Stderr, err)
+		return
+	}
+}
+
+type SomeError struct {
+	Code    int
+	Message string
+}
+
+func (s *SomeError) Error() string {
+	return fmt.Sprintf("Code: %d, Message: %s", s.Code, s.Message)
+}
+
+func doSomething() error {
+	return open()
+}
+
+func open() error {
+	return &SomeError{Code: 400, Message: "invalid open"}
 }
 ```
