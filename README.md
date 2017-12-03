@@ -202,6 +202,11 @@ func read() error {
 }
 ```
 
+```console
+*SomeError
+Code: 400, Message: invalid open
+```
+
 ### Cause()
 
 ```go
@@ -242,4 +247,17 @@ func doSomething() error {
 func open() error {
 	return &SomeError{Code: 400, Message: "invalid open"}
 }
+```
+
+```console
+[DEBUG]エラー
+faild
+main.doSomething
+	/Users/jumpei/go/src/github.com/pei0804/go-chi-api-example/err/err1/err1.go:24
+main.main
+	/Users/jumpei/go/src/github.com/pei0804/go-chi-api-example/err/err1/err1.go:11
+runtime.main
+	/Users/jumpei/.anyenv/envs/goenv/versions/1.8/src/runtime/proc.go:185
+runtime.goexit
+	/Users/jumpei/.anyenv/envs/goenv/versions/1.8/src/runtime/asm_amd64.s:2197
 ```
