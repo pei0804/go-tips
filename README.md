@@ -135,6 +135,79 @@ func main() {
 }
 ```
 
+## map
+
+### nest strcut
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+type Stats struct {
+    cnt      int
+    category map[string]Events
+}
+
+type Events struct {
+    cnt   int
+    event map[string]*Event
+}
+
+type Event struct {
+    value int64
+}
+
+func main() {
+
+    stats := new(Stats)
+    stats.cnt = 33
+    stats.category = make(map[string]Events)
+    e, f := stats.category["aa"]
+    if !f {
+        e = Events{}
+    }
+    e.cnt = 66
+
+    e.event = make(map[string]*Event)
+    stats.category["aa"] = e
+    stats.category["aa"].event["bb"] = &Event{}
+    stats.category["aa"].event["bb"].value = 99
+
+    fmt.Println(stats)
+    fmt.Println(stats.cnt, stats.category["aa"].event["bb"].value)
+}
+```
+
+### nest map
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	data := map[string]map[string]int{
+		"first": map[string]int{},
+	}
+	data["first"]["one"] = 1
+	data["first"]["two"] = 2
+	fmt.Println(data)
+    // -> map[first:map[two:2 one:1]]
+
+	// bad
+	// data["second"]["one"] = 1
+
+	data["first"] = map[string]int{"three": 3}
+	fmt.Println(data)
+    // -> map[first:map[three:3]]
+}
+```
+
 ## struct
 
 ### init
@@ -163,6 +236,62 @@ for i,v := range oldSlice {
     }
 }
 ```
+
+### Pointer
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	var s = &[]string{"1", "2", "3"}
+	modifySlice(s)
+	fmt.Println(s)
+}
+
+func modifySlice(i *[]string) {
+	p := *i
+	fmt.Println(len(p))
+	*i = append(*i, "4")
+}
+```
+
+```console
+3
+&[1 2 3 4]
+```
+
+### Value
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	var s = []string{"1", "2", "3"}
+	modifySlice(s)
+	fmt.Println(s[0])
+	fmt.Println(s)
+}
+
+func modifySlice(i []string) {
+	i[0] = "3"
+	i = append(i, "4")
+}
+```
+
+```console
+3
+[3 2 3]
+```
+
+スライス引数の内容は関数で変更できますが、そのヘッダは変更できません。スライス変数に格納された長さは、関数の呼び出しによって変更されません。これは、関数がオリジナルではなくスライスヘッダのコピーを渡されるためです。したがって、ヘッダーを変更する関数を記述したい場合は、ここで行ったように、ヘッダーを結果パラメーターとして返す必要があります。
 
 ## error
 
@@ -343,3 +472,4 @@ runtime.goexit
 
 </html>
 ```
+
