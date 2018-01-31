@@ -208,6 +208,57 @@ func main() {
 }
 ```
 
+### struct map
+
+```go
+package main
+
+import "fmt"
+
+type myStruct struct {
+    atrib1 string
+    atrib2 string
+}
+
+type mapKey struct {
+    Key    string
+    Option string
+}
+
+func main() {
+    apiKeyTypeRequest := make(map[mapKey]myStruct)
+
+    apiKeyTypeRequest[mapKey{"Key", "MyFirstOption"}] = myStruct{"first Value first op", "second Value first op"}
+    apiKeyTypeRequest[mapKey{"Key", "MysecondtOption"}] = myStruct{atrib1: "first Value second op"}
+
+    fmt.Printf("%+v\n", apiKeyTypeRequest)
+}
+```
+
+### struct map init
+
+```go
+type myStruct struct {
+      atrib1 string
+      atrib2 string
+}
+
+func main() {
+    var myMap = map[string]map[string]myStruct{
+        "foo": {
+            "bar": {attrib1: "a", attrib2: "b"},
+            "baz": {"c", "d"}, //or by order...
+        },
+        "bar": {
+            "gaz": {"e", "f"},
+            "faz": {"g", "h"},
+        },
+    }
+    fmt.Println(myMap["foo"]["bar"].atrib1)
+    fmt.Println(myMap["bar"]["gaz"].atrib2)
+}
+```
+
 ## struct
 
 ### init
