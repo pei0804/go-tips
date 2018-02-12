@@ -524,3 +524,32 @@ runtime.goexit
 </html>
 ```
 
+## DEBUG
+
+```go
+package main
+
+import (
+    "log"
+)
+
+type Foo struct {
+    Bar string
+    Baz string
+}
+
+func main() {
+    foo := &Foo{"bar", "baz"}
+    log.Printf("%v", foo)
+    log.Printf("%+v", foo)
+    log.Printf("%#v", foo)
+    log.Printf("%T", foo)
+}
+```
+
+```console
+2013/12/11 21:52:10 &{bar baz}
+2013/12/11 21:52:10 &{Bar:bar Baz:baz}
+2013/12/11 21:52:10 &main.Foo{Bar:"bar", Baz:"baz"}
+2013/12/11 21:52:10 *main.Foo
+```
